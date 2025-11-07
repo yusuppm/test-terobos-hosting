@@ -66,7 +66,7 @@ class ShopController extends Controller
             ->latest()
             ->take(4)
             ->get();
-        
+    
         return view('shop.show', compact('product', 'relatedProducts'));
     }
 }
