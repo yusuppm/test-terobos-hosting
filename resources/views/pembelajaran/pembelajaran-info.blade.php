@@ -40,7 +40,6 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
 
-            <!-- {{-- Fitur Learning --}} -->
             <div class="group bg-white border border-gray-100 rounded-2xl shadow-lg p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer" data-aos="fade-up">
                 <div class="flex items-center space-x-3 mb-4">
                     <i class="fas fa-book-open text-3xl text-[#0157B2] transition-transform duration-300 group-hover:scale-110"></i>
@@ -53,7 +52,6 @@
                 </ul>
             </div>
 
-            <!-- {{-- Remote Testing --}} -->
             <div class="group bg-white border border-gray-100 rounded-2xl shadow-lg p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer" data-aos="fade-up" data-aos-delay="100">
                 <div class="flex items-center space-x-3 mb-4">
                     <i class="fas fa-cogs text-3xl text-[#01C0DB] transition-transform duration-300 group-hover:scale-110"></i> 
@@ -67,7 +65,6 @@
                 </ul>
             </div>
 
-            <!-- {{-- Real-Time Coding --}} -->
             <div class="group bg-white border border-gray-100 rounded-2xl shadow-lg p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer" data-aos="fade-up" data-aos-delay="200">
                 <div class="flex items-center space-x-3 mb-4">
                     <i class="fas fa-code text-3xl text-purple-600 transition-transform duration-300 group-hover:scale-110"></i>
@@ -81,7 +78,6 @@
                 </ul>
             </div>
 
-            <!-- {{-- Daur Ulang Pendukung Pembelajaran --}} -->
             <div class="group bg-white border border-gray-100 rounded-2xl shadow-lg p-6 transition-all duration-300 transform hover:scale-105 hover:shadow-xl cursor-pointer" data-aos="fade-up" data-aos-delay="300">
                 <div class="flex items-center space-x-3 mb-4">
                     <i class="fas fa-recycle text-3xl text-green-600 transition-transform duration-300 group-hover:scale-110"></i> 
@@ -107,30 +103,37 @@
 
         <div class="space-y-8">
 
-            <div class="group bg-white hover:bg-sky-500 border border-gray-200 hover:border-sky-500 rounded-2xl shadow-lg p-6 md:p-8 overflow-hidden transition-all duration-300" data-aos="fade-up">
+            {{-- LOOPING DINAMIS DARI DATABASE --}}
+            @foreach($topik as $item)
+            <div class="group bg-white hover:bg-sky-500 border border-gray-200 hover:border-sky-500 rounded-2xl shadow-lg p-6 md:p-8 overflow-hidden transition-all duration-300" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
                     <div>
-                        <img src="{{ asset('images/paket/robot-omni.png') }}" alt="Omnidirectional Robot" class="rounded-lg w-full">
+                        {{-- Menggunakan Storage::url() untuk mengambil gambar dari 'storage/app/public/' --}}
+                        <img src="{{ Storage::url($item->image) }}" alt="{{ $item->title }}" class="rounded-lg w-full shadow-md">
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold mb-3 flex items-center space-x-2 text-[#002343] group-hover:text-white transition-colors duration-300">
-                            <i class="fas fa-robot text-[#0157B2] group-hover:text-white/90 transition-colors duration-300"></i>
-                            <span>Omnidirectional Robot</span>
+                            {{-- Tampilkan ikon jika ada --}}
+                            @if($item->icon)
+                                <i class="{{ $item->icon }} text-[#0157B2] group-hover:text-white/90 transition-colors duration-300"></i>
+                            @endif
+                            <span>{{ $item->title }}</span>
                         </h3>
                         <p class="mb-4 text-gray-600 group-hover:text-sky-100 transition-colors duration-300">
-                          Belajar sistem robot bergerak ke segala arah.
+                            {{ $item->description }}
                         </p>
                         <div class="space-y-1.5 text-sm text-gray-700 group-hover:text-white transition-colors duration-300">
-                            <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Teknologi:</strong> Motor omni, pengontrol, sensor.</p>
-                            <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Learning Outcomes:</strong> Dasar robotika, pemrograman gerak.</p>
-                            <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Untuk:</strong> Pelajar SMA/SMK, Mahasiswa Teknik.</p>
-                            <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Modul:</strong> Teori robotika, simulasi, praktek.</p>
-                            <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Perangkat:</strong> IMU Controller + Simulator ROSUS.</p>
+                            <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Teknologi:</strong> {{ $item->teknologi }}</p>
+                            <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Learning Outcomes:</strong> {{ $item->learning_outcomes }}</p>
+                            <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Untuk:</strong> {{ $item->untuk }}</p>
+                            <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Modul:</strong> {{ $item->modul }}</p>
+                            <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Perangkat:</strong> {{ $item->perangkat }}</p>
                         </div>
                         <p class="text-xl font-bold my-5 text-[#002343] group-hover:text-white transition-colors duration-300">
-                          Harga: <span>Rp xxx.xxx,-</span>
+                            Harga: <span>Rp {{ number_format($item->harga, 0, ',', '.') }},-</span>
                         </p>
                         <div class="flex flex-col sm:flex-row gap-3">
+                            {{-- Anda bisa arahkan link ini ke halaman detail, misal: route('topik.show', $item->slug) --}}
                             <a href="#" class="group/btn inline-flex items-center justify-center px-6 py-3 bg-blue-100 group-hover:bg-white text-[#0157B2] group-hover:text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105">
                                 Pelajari Lanjut
                             </a>
@@ -140,43 +143,13 @@
                         </div>
                     </div>
                 </div>
-            </div> <div class="group bg-white hover:bg-sky-500 border border-gray-200 hover:border-sky-500 rounded-2xl shadow-lg p-6 md:p-8 overflow-hidden transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-center">
-                    <div>
-                        <img src="{{ asset('images/paket/robot-lengan.png') }}" alt="Robot Lengan" class="rounded-lg w-full">
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold mb-3 flex items-center space-x-2 text-[#002343] group-hover:text-white transition-colors duration-300">
-                            <i class="fas fa-robot text-[#0157B2] group-hover:text-white/90 transition-colors duration-300"></i>
-                            <span>Robot Lengan (Arm Robot)</span>
-                        </h3>
-                        <p class="mb-4 text-gray-600 group-hover:text-sky-100 transition-colors duration-300">
-                          Memahami kinematika dan otomasi industri.
-                        </p>
-                        <div class="space-y-1.5 text-sm text-gray-700 group-hover:text-white transition-colors duration-300">
-                           <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Teknologi:</strong> Motor Servo, 3D Printing, Inverse Kinematics.</p>
-                           <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Learning Outcomes:</strong> Simulasi industri, kontrol motor presisi.</p>
-                           <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Untuk:</strong> Mahasiswa Teknik, Hobiis Lanjut.</p>
-                           <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Modul:</strong> Desain 3D, simulasi, perakitan.</p>
-                           <p><strong class="font-semibold text-gray-800 group-hover:text-white/90">Perangkat:</strong> 4-Axis Arm Kit + Simulator ROSUS.</p>
-                        </div>
-                        <p class="text-xl font-bold my-5 text-[#002343] group-hover:text-white transition-colors duration-300">
-                          Harga: <span>Rp xxx.xxx,-</span>
-                        </p>
-                        <div class="flex flex-col sm:flex-row gap-3">
-                           <a href="#" class="group/btn inline-flex items-center justify-center px-6 py-3 bg-blue-100 group-hover:bg-white text-[#0157B2] group-hover:text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105">
-                                Pelajari Lanjut
-                            </a>
-                            <a href="#" class="group/btn inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[#0157B2] to-[#01C0DB] group-hover:bg-white text-white group-hover:text-[#0157B2] font-semibold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg">
-                                Daftar Paket Ini
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div> </div>
+            </div>
+            @endforeach
+            {{-- AKHIR LOOPING --}}
+
+        </div>
     </div>
 </section>
-
 <section class="bg-white py-16 sm:py-20">
     <div class="container mx-auto px-4">
 
@@ -288,7 +261,8 @@
                 </a>
             </div>
 
-        </div> </div>
+        </div> 
+    </div>
 </section>
-            
+        
 @endsection

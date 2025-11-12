@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\Database;
+use Illuminate\Support\Facades\Log;
 
-class Customer extends Authenticatable
+class Customer extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
 
     protected $fillable = [
         'name',
         'email',
-        'password',
         'phone',
         'address',
         'birth_date',
@@ -22,13 +23,8 @@ class Customer extends Authenticatable
         'is_active',
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'birth_date' => 'date',
         'is_active' => 'boolean',
     ];

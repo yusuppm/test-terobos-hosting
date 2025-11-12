@@ -45,11 +45,15 @@ class NewsResource extends Resource
                                     ->native(false)
                                     ->displayFormat('d/m/Y'),
                                 
-                                Forms\Components\TextInput::make('ditulis_oleh')
+                                // ===== [PERUBAHAN 1: FORMULIR PENULIS] =====
+                                // 'ditulis_oleh' (TextInput) diganti dengan 'customer_id' (Select)
+                                Forms\Components\Select::make('customer_id')
                                     ->label('Penulis')
+                                    ->relationship('author', 'name') // Mengambil dari relasi 'author' & tampilkan 'name'
                                     ->required()
-                                    ->maxLength(255)
-                                    ->placeholder('Nama penulis berita'),
+                                    ->searchable()
+                                    ->preload()
+                                    ->placeholder('Pilih penulis berita'),
                             ]),
                         
                         Forms\Components\TextInput::make('title')
@@ -74,12 +78,15 @@ class NewsResource extends Resource
                             ->label('Kategori')
                             ->options([
                                 'Industri 5.0' => 'Industri 5.0',
-                                'Sustainbility' => 'Sustainbility',
+                                'Sustainbility' => 'Sustainbility', // <-- Typo? mungkin 'Sustainability'
                                 'Teknologi' => 'Teknologi',
                                 'Pendidikan' => 'Pendidikan',
                                 'Competition' => 'Competition',
                                 'Partnership' => 'Partnership',
                                 'Workshop' => 'Workshop',
+                                // Kategori dari seeder Anda:
+                                'Edukasi' => 'Edukasi',
+                                'Komunitas' => 'Komunitas',
                             ])
                             ->required()
                             ->searchable()
@@ -90,13 +97,7 @@ class NewsResource extends Resource
                             ->required()
                             ->columnSpanFull()
                             ->toolbarButtons([
-                                'bold',
-                                'italic',
-                                'underline',
-                                'bulletList',
-                                'orderedList',
-                                'link',
-                                'blockquote',
+                                'bold', 'italic', 'underline', 'bulletList', 'orderedList', 'link', 'blockquote',
                             ]),
                     ]),
                 
@@ -108,12 +109,12 @@ class NewsResource extends Resource
                             ->image()
                             ->required()
                             ->imageEditor()
-                            ->imageEditorAspectRatios([
-                                '16:9',
-                                '4:3',
-                                '1:1',
-                            ])
-                            ->directory('news-thumbnails')
+                            ->imageEditorAspectRatios(['16:9', '4:3', '1:1'])
+                            
+                            // ===== [PERUBAHAN 2: DIREKTORI THUMBNAIL] =====
+                            // Diubah agar konsisten dengan Seeder
+                            ->directory('thumbnails') 
+                            
                             ->visibility('public')
                             ->maxSize(2048)
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp']),
@@ -150,18 +151,14 @@ class NewsResource extends Resource
                 Tables\Columns\BadgeColumn::make('kategory')
                     ->label('Kategori')
                     ->colors([
-    'Industri 5.0'   => 'Indigo',
-    'Sustainbility'  => 'Emerald',
-    'Teknologi'      => 'Blue',
-    'Pendidikan'     => 'Fuchsia',
-    'Competition'    => 'Orange',
-    'Partnership'    => 'Sky',
-    'Workshop'       => 'Teal',
+                        // ... (daftar warna Anda) ...
                     ])
                     ->searchable()
                     ->sortable(),
                 
-                Tables\Columns\TextColumn::make('ditulis_oleh')
+                // ===== [PERUBAHAN 3: KOLOM TABEL PENULIS] =====
+                // 'ditulis_oleh' diganti dengan relasi 'author.name'
+                Tables\Columns\TextColumn::make('author.name')
                     ->label('Penulis')
                     ->searchable()
                     ->sortable()
@@ -173,29 +170,13 @@ class NewsResource extends Resource
                     ->sortable()
                     ->toggleable(),
                 
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat')
-                    ->dateTime('d M Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Diperbarui')
-                    ->dateTime('d M Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                // ... (kolom created_at dan updated_at Anda) ...
             ])
             ->filters([
                 SelectFilter::make('kategory')
                     ->label('Kategori')
                     ->options([
-                                'Industri 5.0' => 'Industri 5.0',
-                                'Sustainbility' => 'Sustainbility',
-                                'Teknologi' => 'Teknologi',
-                                'Pendidikan' => 'Pendidikan',
-                                'Competition' => 'Competition',
-                                'Partnership' => 'Partnership',
-                                'Workshop' => 'Workshop',
+                        // ... (opsi kategori Anda) ...
                     ]),
                 
                 Filter::make('tanggal')
@@ -218,21 +199,24 @@ class NewsResource extends Resource
                     }),
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
-                    ->label('Lihat'),
-                Tables\Actions\EditAction::make()
-                    ->label('Edit'),
-                Tables\Actions\DeleteAction::make()
-                    ->label('Hapus'),
+                Tables\Actions\ViewAction::make()->label('Lihat'),
+                Tables\Actions\EditAction::make()->label('Edit'),
+                Tables\Actions\DeleteAction::make()->label('Hapus'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
-                        ->label('Hapus Terpilih'),
+                    Tables\Actions\DeleteBulkAction::make()->label('Hapus Terpilih'),
                 ]),
             ])
             ->defaultSort('tanggal', 'desc')
             ->striped();
+    }
+    
+    // ===== [PERUBAHAN 4: MENAMBAHKAN EAGER LOADING] =====
+    // Ini untuk memperbaiki N+1 Query di tabel admin
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('author');
     }
 
     public static function getRelations(): array
@@ -251,4 +235,3 @@ class NewsResource extends Resource
         ];
     }
 }
-

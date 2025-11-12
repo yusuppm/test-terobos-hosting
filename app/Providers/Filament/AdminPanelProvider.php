@@ -42,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->sidebarFullyCollapsibleOnDesktop()
-            ->brandLogo(asset('images/rosus_logo.png'))
+            ->brandLogo(asset('images/logo.png'))
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
