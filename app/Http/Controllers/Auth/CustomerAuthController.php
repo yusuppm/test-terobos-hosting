@@ -81,7 +81,7 @@ class CustomerAuthController extends Controller
 
         Auth::guard($this->guard)->login($customer);
 
-        return redirect()->route('home')->with('success', 'Welcome to Rosus, ' . $customer->first_name . '!');
+        return redirect()->route('home')->with('success', 'Welcome to Terobos, ' . $customer->first_name . '!');
     }
 
     public function logout(Request $request)

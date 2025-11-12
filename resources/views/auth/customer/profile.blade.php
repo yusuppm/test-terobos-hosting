@@ -2,15 +2,14 @@
 
 @extends('layouts.app')
 
-@section('title', 'My Profile - Rosus')
+@section('title', 'Profil Saya - Terobos')
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-900 pt-24 pb-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
-        <!-- Header -->
         <div class="text-center mb-8">
-            <h1 class="text-3xl font-bold text-white mb-2">My Profile</h1>
-            <p class="text-gray-300">Manage your account settings and preferences</p>
+            <h1 class="text-3xl font-bold text-white mb-2">Profil Saya</h1>
+            <p class="text-gray-300">Kelola pengaturan dan preferensi akun Anda</p>
         </div>
 
         @if(session('success'))
@@ -23,9 +22,8 @@
         @endif
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Profile Card -->
             <div class="lg:col-span-1">
-                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20">
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20" data-aos="fade-right">
                     <div class="text-center">
                         <div class="relative inline-block mb-4">
                             <div id="avatar-container" class="w-24 h-24 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center mx-auto overflow-hidden">
@@ -42,14 +40,14 @@
                         <h3 class="text-xl font-bold text-white mb-1">{{ $customer->name }}</h3>
                         <p class="text-gray-400 mb-2">{{ $customer->email }}</p>
                         <span class="inline-block px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm">
-                            <i class="fas fa-check-circle mr-1"></i>Active
+                            <i class="fas fa-check-circle mr-1"></i>Aktif
                         </span>
                     </div>
                     
                     <div class="mt-6 space-y-3">
                         <div class="flex items-center text-gray-300">
                             <i class="fas fa-calendar-alt w-5 text-cyan-400 mr-3"></i>
-                            <span class="text-sm">Joined {{ $customer->created_at->format('M Y') }}</span>
+                            <span class="text-sm">Bergabung {{ $customer->created_at->format('M Y') }}</span>
                         </div>
                         @if($customer->phone)
                         <div class="flex items-center text-gray-300">
@@ -60,27 +58,25 @@
                         @if($customer->birth_date)
                         <div class="flex items-center text-gray-300">
                             <i class="fas fa-birthday-cake w-5 text-cyan-400 mr-3"></i>
-                            <span class="text-sm">{{ $customer->birth_date->format('M d, Y') }}</span>
+                            <span class="text-sm">{{ $customer->birth_date->format('d M Y') }}</span>
                         </div>
                         @endif
                     </div>
                 </div>
             </div>
 
-            <!-- Forms -->
             <div class="lg:col-span-2 space-y-8">
-                <!-- Update Profile Form -->
-                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20">
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20" data-aos="fade-left">
                     <h2 class="text-xl font-bold text-white mb-6 flex items-center">
                         <i class="fas fa-user-edit text-cyan-400 mr-3"></i>
-                        Update Profile
+                        Perbarui Profil
                     </h2>
 
                     @if ($errors->any())
                         <div class="mb-6 bg-red-500/10 border border-red-500/50 rounded-lg p-4">
                             <div class="flex items-center mb-2">
                                 <i class="fas fa-exclamation-triangle text-red-400 mr-2"></i>
-                                <span class="text-red-300 text-sm font-medium">Please fix the following errors:</span>
+                                <span class="text-red-300 text-sm font-medium">Harap perbaiki kesalahan berikut:</span>
                             </div>
                             <ul class="text-red-300 text-sm space-y-1 ml-6">
                                 @foreach ($errors->all() as $error)
@@ -93,13 +89,11 @@
                     <form method="POST" action="{{ route('auth.profile.update') }}" enctype="multipart/form-data" class="space-y-6">
                         @csrf
                         
-                        <!-- Hidden Avatar Input -->
                         <input type="file" id="avatar-input" name="avatar" accept="image/*" class="hidden" onchange="previewAvatar(this)">
 
-                        <!-- Name -->
                         <div>
                             <label for="name" class="block text-sm font-medium text-gray-200 mb-2">
-                                <i class="fas fa-user mr-2 text-cyan-400"></i>Full Name
+                                <i class="fas fa-user mr-2 text-cyan-400"></i>Nama Lengkap
                             </label>
                             <input type="text" 
                                    id="name" 
@@ -109,10 +103,9 @@
                                    class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300">
                         </div>
 
-                        <!-- Email -->
                         <div>
                             <label for="email" class="block text-sm font-medium text-gray-200 mb-2">
-                                <i class="fas fa-envelope mr-2 text-cyan-400"></i>Email Address
+                                <i class="fas fa-envelope mr-2 text-cyan-400"></i>Alamat Email
                             </label>
                             <input type="email" 
                                    id="email" 
@@ -122,11 +115,10 @@
                                    class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300">
                         </div>
 
-                        <!-- Phone & Gender -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label for="phone" class="block text-sm font-medium text-gray-200 mb-2">
-                                    <i class="fas fa-phone mr-2 text-cyan-400"></i>Phone Number
+                                    <i class="fas fa-phone mr-2 text-cyan-400"></i>Nomor Telepon
                                 </label>
                                 <input type="tel" 
                                        id="phone" 
@@ -134,24 +126,59 @@
                                        value="{{ old('phone', $customer->phone) }}"
                                        class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300">
                             </div>
+                            
                             <div>
                                 <label for="gender" class="block text-sm font-medium text-gray-200 mb-2">
-                                    <i class="fas fa-venus-mars mr-2 text-cyan-400"></i>Gender
+                                    <i class="fas fa-venus-mars mr-2 text-cyan-400"></i>Jenis Kelamin
                                 </label>
-                                <select name="gender" 
-                                        id="gender"
-                                        class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300">
-                                    <option value="">Select Gender</option>
-                                    <option value="male" {{ old('gender', $customer->gender) == 'male' ? 'selected' : '' }}>Male</option>
-                                    <option value="female" {{ old('gender', $customer->gender) == 'female' ? 'selected' : '' }}>Female</option>
-                                </select>
-                            </div>
-                        </div>
+                                
+                                @php
+                                    $old_gender = old('gender', $customer->gender);
+                                    $selected_text = 'Pilih Jenis Kelamin';
+                                    if ($old_gender == 'male') {
+                                        $selected_text = 'Laki-laki';
+                                    } elseif ($old_gender == 'female') {
+                                        $selected_text = 'Perempuan';
+                                    }
+                                @endphp
 
-                        <!-- Birth Date -->
+                                <div x-data="{ 
+                                        open: false, 
+                                        selected: '{{ $old_gender }}', 
+                                        selectedText: '{{ $selected_text }}' 
+                                     }" 
+                                     class="relative" @click.away="open = false">
+                                    
+                                    <input type="hidden" name="gender" x-model="selected">
+
+                                    <button @click="open = !open" type="button" class="flex items-center justify-between w-full px-4 py-3 text-left bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300">
+                                        <span x-text="selectedText" :class="{ 'text-gray-400': selected === '' }"></span>
+                                        <i class="fas fa-chevron-down text-gray-400 text-xs transition-transform" :class="{ 'rotate-180': open }"></i>
+                                    </button>
+
+                                    <div x-show="open" 
+                                         x-transition
+                                         class="absolute z-20 w-full mt-2 bg-gray-800 rounded-lg shadow-2xl border border-white/20 overflow-hidden"
+                                         style="display: none;">
+                                        
+                                        <a @click="selected = 'male'; selectedText = 'Laki-laki'; open = false"
+                                           href="#"
+                                           class="block px-4 py-3 text-gray-200 hover:bg-white/10 hover:text-cyan-400 transition-colors">
+                                           Laki-laki
+                                        </a>
+                                        <a @click="selected = 'female'; selectedText = 'Perempuan'; open = false"
+                                           href="#"
+                                           class="block px-4 py-3 text-gray-200 hover:bg-white/10 hover:text-cyan-400 transition-colors">
+                                           Perempuan
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
                         <div>
                             <label for="birth_date" class="block text-sm font-medium text-gray-200 mb-2">
-                                <i class="fas fa-birthday-cake mr-2 text-cyan-400"></i>Birth Date
+                                <i class="fas fa-birthday-cake mr-2 text-cyan-400"></i>Tanggal Lahir
                             </label>
                             <input type="date" 
                                    id="birth_date" 
@@ -160,10 +187,9 @@
                                    class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300">
                         </div>
 
-                        <!-- Address -->
                         <div>
                             <label for="address" class="block text-sm font-medium text-gray-200 mb-2">
-                                <i class="fas fa-map-marker-alt mr-2 text-cyan-400"></i>Address
+                                <i class="fas fa-map-marker-alt mr-2 text-cyan-400"></i>Alamat
                             </label>
                             <textarea id="address" 
                                       name="address" 
@@ -171,31 +197,28 @@
                                       class="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 resize-none">{{ old('address', $customer->address) }}</textarea>
                         </div>
 
-                        <!-- Update Button -->
                         <button type="submit" 
                                 class="w-full relative group bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-cyan-500/25">
                             <span class="relative flex items-center justify-center">
                                 <i class="fas fa-save mr-2"></i>
-                                Update Profile
+                                Perbarui Profil
                             </span>
                         </button>
                     </form>
                 </div>
 
-                <!-- Change Password Form -->
-                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20">
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20" data-aos="fade-left" data-aos-delay="100">
                     <h2 class="text-xl font-bold text-white mb-6 flex items-center">
                         <i class="fas fa-lock text-cyan-400 mr-3"></i>
-                        Change Password
+                        Ubah Kata Sandi
                     </h2>
 
                     <form method="POST" action="{{ route('auth.change-password') }}" class="space-y-6">
                         @csrf
                         
-                        <!-- Current Password -->
                         <div>
                             <label for="current_password" class="block text-sm font-medium text-gray-200 mb-2">
-                                <i class="fas fa-key mr-2 text-cyan-400"></i>Current Password
+                                <i class="fas fa-key mr-2 text-cyan-400"></i>Kata Sandi Saat Ini
                             </label>
                             <div class="relative">
                                 <input type="password" 
@@ -209,11 +232,10 @@
                             </div>
                         </div>
 
-                        <!-- New Password -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label for="password" class="block text-sm font-medium text-gray-200 mb-2">
-                                    <i class="fas fa-lock mr-2 text-cyan-400"></i>New Password
+                                    <i class="fas fa-lock mr-2 text-cyan-400"></i>Kata Sandi Baru
                                 </label>
                                 <div class="relative">
                                     <input type="password" 
@@ -228,7 +250,7 @@
                             </div>
                             <div>
                                 <label for="password_confirmation" class="block text-sm font-medium text-gray-200 mb-2">
-                                    <i class="fas fa-lock mr-2 text-cyan-400"></i>Confirm New Password
+                                    <i class="fas fa-lock mr-2 text-cyan-400"></i>Konfirmasi Kata Sandi Baru
                                 </label>
                                 <div class="relative">
                                     <input type="password" 
@@ -243,10 +265,9 @@
                             </div>
                         </div>
 
-                        <!-- Password Strength Indicator -->
                         <div id="password-strength" class="hidden">
                             <div class="flex items-center mb-2">
-                                <span class="text-sm text-gray-300 mr-2">Password Strength:</span>
+                                <span class="text-sm text-gray-300 mr-2">Kekuatan Kata Sandi:</span>
                                 <div class="flex space-x-1">
                                     <div id="strength-1" class="w-6 h-2 rounded bg-gray-600"></div>
                                     <div id="strength-2" class="w-6 h-2 rounded bg-gray-600"></div>
@@ -257,53 +278,46 @@
                             </div>
                         </div>
 
-                        <!-- Change Password Button -->
                         <button type="submit" 
                                 class="w-full relative group bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-orange-500/25">
                             <span class="relative flex items-center justify-center">
                                 <i class="fas fa-key mr-2"></i>
-                                Change Password
+                                Ubah Kata Sandi
                             </span>
                         </button>
                     </form>
                 </div>
 
-                <!-- Account Actions -->
-                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20">
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20" data-aos="fade-left" data-aos-delay="200">
                     <h2 class="text-xl font-bold text-white mb-6 flex items-center">
                         <i class="fas fa-cog text-cyan-400 mr-3"></i>
-                        Account Actions
+                        Tindakan Akun
                     </h2>
                     
                     <div class="space-y-4">
-                        <!-- Export Data -->
                         <button onclick="exportData()" class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
                             <i class="fas fa-download mr-2"></i>
-                            Export My Data
+                            Ekspor Data Saya
                         </button>
                         
-                        <!-- Delete Account -->
                         <button onclick="confirmDelete()" class="w-full flex items-center justify-center px-4 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">
                             <i class="fas fa-trash mr-2"></i>
-                            Delete Account
+                            Hapus Akun
                         </button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Back to Home -->
         <div class="text-center mt-8">
             <a href="{{ route('home') }}" class="text-gray-400 hover:text-white transition-colors">
-                <i class="fas fa-arrow-left mr-2"></i>Back to Home
+                <i class="fas fa-arrow-left mr-2"></i>Kembali ke Beranda
             </a>
         </div>
     </div>
 </div>
 
-<!-- JavaScript -->
 <script>
-    // Avatar preview function
     function previewAvatar(input) {
         if (input.files && input.files[0]) {
             const reader = new FileReader();
@@ -332,7 +346,6 @@
         }
     }
 
-    // Toggle password visibility
     function togglePassword(fieldId) {
         const field = document.getElementById(fieldId);
         const icon = document.getElementById(fieldId + '_icon');
@@ -346,7 +359,6 @@
         }
     }
 
-    // Password strength checker
     function checkPasswordStrength(password) {
         let strength = 0;
         const strengthBar = document.getElementById('password-strength');
@@ -357,7 +369,6 @@
         if (/[0-9]/.test(password)) strength++;
         if (/[^A-Za-z0-9]/.test(password)) strength++;
         
-        // Reset all bars
         for (let i = 1; i <= 4; i++) {
             document.getElementById('strength-' + i).className = 'w-6 h-2 rounded bg-gray-600';
         }
@@ -367,19 +378,19 @@
             case 0:
             case 1:
                 color = 'bg-red-500';
-                text = 'Weak';
+                text = 'Lemah';
                 break;
             case 2:
                 color = 'bg-yellow-500';
-                text = 'Fair';
+                text = 'Cukup';
                 break;
             case 3:
                 color = 'bg-blue-500';
-                text = 'Good';
+                text = 'Baik';
                 break;
             case 4:
                 color = 'bg-green-500';
-                text = 'Strong';
+                text = 'Kuat';
                 break;
         }
         
@@ -397,25 +408,20 @@
         }
     }
 
-    // Export data function
     function exportData() {
-        if (confirm('Are you sure you want to export your data? This will download a file containing your personal information.')) {
-            // You can implement the actual export functionality here
+        if (confirm('Anda yakin ingin mengekspor data Anda? Ini akan mengunduh file yang berisi informasi pribadi Anda.')) {
             window.location.href = "{{ route('auth.export-data') ?? '#' }}";
         }
     }
 
-    // Confirm delete account
     function confirmDelete() {
-        if (confirm('Are you absolutely sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.')) {
-            if (confirm('This is your final confirmation. Are you really sure you want to delete your account?')) {
-                // You can implement the actual delete functionality here
+        if (confirm('Anda benar-benar yakin ingin menghapus akun Anda? Tindakan ini tidak dapat dibatalkan dan semua data Anda akan dihapus secara permanen.')) {
+            if (confirm('Ini adalah konfirmasi terakhir Anda. Apakah Anda benar-benar yakin ingin menghapus akun Anda?')) {
                 window.location.href = "{{ route('auth.delete-account') ?? '#' }}";
             }
         }
     }
 
-    // Auto-hide success messages
     document.addEventListener('DOMContentLoaded', function() {
         const successMessage = document.querySelector('.bg-green-500\\/10');
         if (successMessage) {
@@ -428,7 +434,6 @@
             }, 5000);
         }
 
-        // Add password strength checker
         const passwordField = document.getElementById('password');
         if (passwordField) {
             passwordField.addEventListener('input', function() {
@@ -436,7 +441,6 @@
             });
         }
 
-        // Phone number formatting
         const phoneField = document.getElementById('phone');
         if (phoneField) {
             phoneField.addEventListener('input', function() {

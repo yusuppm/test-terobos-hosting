@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
+
+            
+            $table->foreignId('customer_id')   
+                  ->nullable()                
+                //   ->after('id')               
+                  ->constrained('customers')  
+                  ->nullOnDelete();           
+
             $table->date('tanggal')->default(now());
-            $table->string('ditulis_oleh');
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('kategory');

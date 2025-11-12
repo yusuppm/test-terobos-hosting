@@ -14,23 +14,11 @@ use App\Http\Controllers\ContactController;
 // Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// // Projects Routes
-// Route::prefix('projects')->name('projects.')->group(function () {
-//     Route::get('/', [ProjectController::class, 'index'])->name('index');
-//     Route::get('/{project:slug}', [ProjectController::class, 'show'])->name('show');
-// });
-
 // News Routes (if needed)
 Route::prefix('news')->name('news.')->group(function () {
     Route::get('/', [NewsController::class, 'index'])->name('index');
     Route::get('/{news:slug}', [NewsController::class, 'show'])->name('show');
 });
-
-// // Shop Routes
-// Route::prefix('shop')->name('shop.')->group(function () {
-//     Route::get('/', [ShopController::class, 'index'])->name('index');
-//     Route::get('/{product:slug}', [ShopController::class, 'show'])->name('show');
-// });
 
 // Pembelajaran & Kursus Routes 
 Route::get('/pembelajaran', [KursusController::class, 'info'])->name('pembelajaran.info');
@@ -62,5 +50,8 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('/profile', [CustomerAuthController::class, 'profile'])->name('profile');
         Route::post('/profile', [CustomerAuthController::class, 'updateProfile'])->name('profile.update');
         Route::post('/change-password', [CustomerAuthController::class, 'changePassword'])->name('change-password');
+
+        Route::get('/profile/export-data', [CustomerAuthController::class, 'exportData'])->name('export-data');
+        Route::get('/profile/delete-account', [CustomerAuthController::class, 'deleteAccount'])->name('delete-account');
     });
 });

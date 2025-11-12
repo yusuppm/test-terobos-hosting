@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `rosus`
+-- Database: `Terobos`
 --
 
 -- --------------------------------------------------------
@@ -288,7 +288,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@timrosus.com', NULL, '$2y$12$l8CmCPGi8aN6HC8gHEEAhuSvMK.caZJ53YOtW.luYBPGeMJ95jZ3a', NULL, '2025-06-12 21:56:48', '2025-06-12 21:56:48');
+(1, 'admin', 'admin@timterobos.com', NULL, '$2y$12$l8CmCPGi8aN6HC8gHEEAhuSvMK.caZJ53YOtW.luYBPGeMJ95jZ3a', NULL, '2025-06-12 21:56:48', '2025-06-12 21:56:48');
 
 --
 -- Indexes for dumped tables

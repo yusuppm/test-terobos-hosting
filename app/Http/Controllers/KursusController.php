@@ -1,16 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Routing\Controller;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use App\Models\TopikPembelajaran; 
 
 class KursusController extends Controller
 {
+   
     public function info()
     {
-        return view('pembelajaran.pembelajaran-info'); 
+        // 2. Ambil semua data
+        $topik = TopikPembelajaran::orderBy('order', 'asc')->get();
+        
+        // 3. Kirim data ke view
+        return view('pembelajaran.pembelajaran-info', compact('topik'));
     }
+
     public function index()
     {
         return view('pembelajaran.kursus'); 
